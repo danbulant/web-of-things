@@ -79,7 +79,7 @@ nav .links {
 .btn {
     isolation: isolate;
     position: relative;
-    display: flex;
+    display: inline-flex;
     align-items: center;
     gap: 0.5rem;
     padding: 0.25rem 0.5rem;
@@ -156,6 +156,6 @@ main {
     background-image: url("/assets/icon-link.svg");
 }
 
-main.profile {
+/*main.profile {
     background: var(--bg-dark);
-}
+}*/
