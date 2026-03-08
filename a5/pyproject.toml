@@ -1,0 +1,7 @@
+[project]
+name = "a5"
+version = "0.1.0"
+description = "Sensor driven website"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = []
