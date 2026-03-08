@@ -1,46 +1,64 @@
-from flask import Flask, g, redirect, render_template, request, url_for
-from werkzeug.wrappers.response import Response
+from time import time
+
+from flask import Flask, g, render_template, request
+from flask.typing import ResponseReturnValue
+from flask_htmx import HTMX
 
 from db import DB
 
 app = Flask(__name__)
+htmx = HTMX(app)
 
 
 @app.route("/api/report", methods=["POST"])
-def report() -> str | Response:
+def report() -> ResponseReturnValue:
     """Adds a measurement"""
-    timestamp = request.form["timestamp"]
-    tvoc = request.form["tvoc"]
-    co2 = request.form["co2"]
+    # timestamp = request.json["timestamp"]
+    tvoc = request.json["tvoc"]
+    co2 = request.json["co2"]
     try:
-        timestamp = int(timestamp)
+        # timestamp = int(timestamp)
         tvoc = float(tvoc)
         co2 = float(co2)
     except ValueError:
         return "Invalid data", 400
     db = get_db()
+    timestamp = time()
     db.store(timestamp, tvoc, co2)
     return "ok", 200
 
 
-@app.route("/api/stats", methods=["GET"])
-def stats() -> Response:
+@app.route("/stats", methods=["GET"])
+def stats() -> ResponseReturnValue:
+    """Gets overall statistics as well as few recent measurements"""
     db = get_db()
-    return db.get_stats()
+    stats = db.get_stats()
+    recents = db.get_page(0, 10)
+    template = "page/index.html.j2"
+    if htmx:
+        template = "block/index.html.j2"
+    return render_template(template, stats=stats, list=recents)
 
 
-@app.route("/api/measurements", methods=["GET"])
-def measurements() -> Response:
+@app.route("/measurements", methods=["GET"])
+def measurements() -> ResponseReturnValue:
+    """Lists measurements"""
     db = get_db()
-    page = request.get["page"]
     page_size = 20
+    page = request.args["page"]
     try:
         page = int(page)
         if page < 0:
             raise ValueError()
     except ValueError:
         return "Invalid page", 400
-    return db.get_page(page, page_size)
+    data = db.get_page(page, page_size)
+    count = db.count()
+    has_next_page = count > page * page_size
+    template = "page/measurements.html.j2"
+    if htmx:
+        template = "block/measurements.html.j2"
+    return render_template(template, has_next_page=has_next_page, page=page, list=data)
 
 
 def get_db() -> DB:

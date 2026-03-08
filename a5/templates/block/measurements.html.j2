@@ -1,0 +1,31 @@
+<div hx-get="/measurements" hx-trigger="every 2s" hx-target="main"></div>
+
+<h1>Measurements</h1>
+<p>Page {{page}}</p>
+
+{% for row in list %}
+    <article class="card">
+        <div class="contents">
+            <header>@ {{row['timestamp']}}</header>
+            CO2: {{row['co2']}}
+            TVOC: {{row['tvoc']}}
+        </div>
+    </article>
+{% else %}
+    <article class="card">
+        <div class="contents">
+            <header>No measurements yet.</header>
+        </div>
+    </article>
+{% endfor %}
+
+<div>
+    {% if has_next_page %}
+        <a href="/measurements?page={{page+1}}" class="btn btn-link">Previous page</a>
+    {% endif %}
+    {% if page > 0 %}
+        <a href="/measurements?page={{page-1}}" class="btn btn-link">Next page</a>
+    {% endif %}
+
+    <a href="/" class="btn btn-link">View statistics</a>
+</div>

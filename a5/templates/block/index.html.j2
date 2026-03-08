@@ -1,0 +1,31 @@
+<div hx-get="/" hx-trigger="every 2s" hx-target="main"></div>
+
+<h1>Overview</h1>
+
+<article class="card">
+    <div class="contents">
+        Count {{ stats.count }}
+    </div>
+</article>
+
+<h2>Recent measurements</h2>
+
+{% for row in list %}
+    <article class="card">
+        <div class="contents">
+            <header>@ {{row['timestamp']}}</header>
+            CO2: {{row['co2']}}
+            TVOC: {{row['tvoc']}}
+        </div>
+    </article>
+{% else %}
+    <article class="card">
+        <div class="contents">
+            <header>No measurements yet.</header>
+        </div>
+    </article>
+{% endfor %}
+
+<div>
+    <a href="/measurements" class="btn btn-link">View measurements</a>
+</div>
