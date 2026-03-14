@@ -79,12 +79,12 @@ CREATE TABLE IF NOT EXISTS measurements
         return stats
 
     def get_page(self, page: int, page_size: int = 20) -> List[sqlite3.Row]:
-        """Gets a paged list of all measurements. Page is 0 indexed."""
+        """Gets a paged list of all measurements. Page is 1 indexed."""
         with closing(self._conn.cursor()) as cursor:
             cursor.execute(
                 # sql
                 "SELECT timestamp, tvoc, co2 FROM measurements ORDER BY timestamp DESC LIMIT ?, ?",
-                (page_size, (page - 1) * page_size),
+                ((page - 1) * page_size, page_size),
             )
             return cursor.fetchall()
 

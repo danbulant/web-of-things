@@ -1,3 +1,4 @@
+from datetime import datetime
 from time import time
 
 from flask import Flask, g, render_template, request
@@ -8,6 +9,11 @@ from db import DB
 
 app = Flask(__name__)
 htmx = HTMX(app)
+
+
+@app.template_filter()
+def format_datetime(value):
+    return datetime.fromtimestamp(value).isoformat()
 
 
 @app.route("/api/report", methods=["POST"])
@@ -33,7 +39,7 @@ def stats() -> ResponseReturnValue:
     """Gets overall statistics as well as few recent measurements"""
     db = get_db()
     stats = db.get_stats()
-    recents = db.get_page(0, 10)
+    recents = db.get_page(1, 10)
     template = "page/index.html.j2"
     if htmx:
         template = "block/index.html.j2"

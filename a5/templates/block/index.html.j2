@@ -1,10 +1,14 @@
-<div hx-get="/" hx-trigger="every 2s" hx-target="main"></div>
+<div hx-get="/?htmx" hx-trigger="every 2s" hx-target="main"></div>
 
 <h1>Overview</h1>
 
 <article class="card">
     <div class="contents">
-        Count {{ stats.count }}
+        <div>
+            <b>Count {{ stats.count }}</b> <br>
+            <b>TVOC min {{ stats.tvoc_min.tvoc }}</b> @ {{ stats.tvoc_min.timestamp|format_datetime }} <b>max {{ stats.tvoc_max.tvoc }}</b> @ {{ stats.tvoc_max.timestamp|format_datetime }} <br>
+            <b>CO2 min {{ stats.co2_min.co2 }}</b> @ {{ stats.co2_min.timestamp|format_datetime }} <b>max {{ stats.co2_max.co2 }}</b> @ {{ stats.co2_max.timestamp|format_datetime }}
+        </div>
     </div>
 </article>
 
@@ -14,8 +18,10 @@
     <article class="card">
         <div class="contents">
             <header>@ {{row['timestamp']}}</header>
-            CO2: {{row['co2']}}
-            TVOC: {{row['tvoc']}}
+            <div>
+                CO2: <b>{{row['co2']}}</b>
+                TVOC: <b>{{row['tvoc']}}</b>
+            </div>
         </div>
     </article>
 {% else %}
