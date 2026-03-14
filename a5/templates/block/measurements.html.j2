@@ -21,10 +21,10 @@
 
 <div>
     {% if page > 1 %}
-        <a href="/measurements?page={{page+1}}" hx-get="/measurements?page={{page+1}}&htmx" hx-target="main" class="btn btn-link">Previous page</a>
+        <a href="/measurements?page={{page-1}}" hx-get="/measurements?page={{page-1}}&htmx" hx-target="main" class="btn btn-link">Previous page</a>
     {% endif %}
     {% if has_next_page %}
-        <a href="/measurements?page={{page-1}}" hx-get="/measurements?page={{page-1}}&htmx" hx-target="main" class="btn btn-link">Next page</a>
+        <a href="/measurements?page={{page+1}}" hx-get="/measurements?page={{page+1}}&htmx" hx-target="main" class="btn btn-link">Next page</a>
     {% endif %}
 
     <a href="/" class="btn btn-link">View statistics</a>
