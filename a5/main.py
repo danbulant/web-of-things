@@ -13,6 +13,8 @@ htmx = HTMX(app)
 
 @app.template_filter()
 def format_datetime(value):
+    if not value:
+        return value
     return datetime.fromtimestamp(value).isoformat()
 
 
