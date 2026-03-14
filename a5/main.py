@@ -28,7 +28,7 @@ def report() -> ResponseReturnValue:
     return "ok", 200
 
 
-@app.route("/stats", methods=["GET"])
+@app.route("/", methods=["GET"])
 def stats() -> ResponseReturnValue:
     """Gets overall statistics as well as few recent measurements"""
     db = get_db()
@@ -45,7 +45,7 @@ def measurements() -> ResponseReturnValue:
     """Lists measurements"""
     db = get_db()
     page_size = 20
-    page = request.args["page"]
+    page = request.args["page"] if "page" in request.args else 1
     try:
         page = int(page)
         if page < 0:

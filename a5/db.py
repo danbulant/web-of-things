@@ -84,7 +84,7 @@ CREATE TABLE IF NOT EXISTS measurements
             cursor.execute(
                 # sql
                 "SELECT timestamp, tvoc, co2 FROM measurements ORDER BY timestamp DESC LIMIT ?, ?",
-                (page_size, page * page_size),
+                (page_size, (page - 1) * page_size),
             )
             return cursor.fetchall()
 

@@ -20,10 +20,10 @@
 {% endfor %}
 
 <div>
-    {% if has_next_page %}
+    {% if page > 1 %}
         <a href="/measurements?page={{page+1}}" class="btn btn-link">Previous page</a>
     {% endif %}
-    {% if page > 0 %}
+    {% if has_next_page %}
         <a href="/measurements?page={{page-1}}" class="btn btn-link">Next page</a>
     {% endif %}
 
