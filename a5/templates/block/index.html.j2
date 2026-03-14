@@ -17,7 +17,7 @@
 {% for row in list %}
     <article class="card">
         <div class="contents">
-            <header>@ {{row['timestamp']}}</header>
+            <header>@ {{row['timestamp']|format_datetime}}</header>
             <div>
                 CO2: <b>{{row['co2']}}</b>
                 TVOC: <b>{{row['tvoc']}}</b>
