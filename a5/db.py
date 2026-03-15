@@ -1,3 +1,5 @@
+"""Database module"""
+
 import sqlite3
 from contextlib import closing
 from typing import List
@@ -53,7 +55,8 @@ CREATE TABLE IF NOT EXISTS measurements
         """Returns measurement statistics"""
         stats = Stats()
         with closing(self._conn.cursor()) as cursor:
-            # this could probably be made into a single query, but the database being sqlite results in much lower latency with multiple selects
+            # this could probably be made into a single query,
+            # but the database being sqlite results in much lower latency with multiple selects
             # returned object could also be better typed
             cursor.execute(
                 # sql

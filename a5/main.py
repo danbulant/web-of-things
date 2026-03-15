@@ -1,3 +1,5 @@
+"""Main module"""
+
 from datetime import datetime
 from time import time
 
@@ -13,13 +15,14 @@ htmx = HTMX(app)
 
 @app.template_filter()
 def format_datetime(value):
+    """Format datetime from jinja template"""
     if not value:
         return value
     return datetime.fromtimestamp(value).isoformat()
 
 
 @app.route("/api/report", methods=["POST"])
-def report() -> ResponseReturnValue:
+def post_report() -> ResponseReturnValue:
     """Adds a measurement"""
     # timestamp = request.json["timestamp"]
     tvoc = request.json["tvoc"]
@@ -37,7 +40,7 @@ def report() -> ResponseReturnValue:
 
 
 @app.route("/", methods=["GET"])
-def stats() -> ResponseReturnValue:
+def get_stats() -> ResponseReturnValue:
     """Gets overall statistics as well as few recent measurements"""
     db = get_db()
     stats = db.get_stats()
@@ -49,7 +52,7 @@ def stats() -> ResponseReturnValue:
 
 
 @app.route("/measurements", methods=["GET"])
-def measurements() -> ResponseReturnValue:
+def get_measurements() -> ResponseReturnValue:
     """Lists measurements"""
     db = get_db()
     page_size = 20
